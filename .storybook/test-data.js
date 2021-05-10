@@ -28,6 +28,14 @@ const state = {
     currentCurrency: 'USD',
     conversionRate: 1200.88200327,
     conversionDate: 1489013762,
+    domainMetadata: {
+      "http://localhost:9011": {
+        "host": "localhost:9011",
+        "icon": "http://localhost:9011/metamask-fox.svg",
+        "lastUpdated": 1601297981541,
+        "name": "E2E Test Dapp"
+      }
+    },
     nativeCurrency: 'ETH',
     frequentRpcList: [],
     network: '3',
