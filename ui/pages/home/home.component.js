@@ -14,6 +14,7 @@ import ConnectedAccounts from '../connected-accounts';
 import { Tabs, Tab } from '../../components/ui/tabs';
 import { EthOverview } from '../../components/app/wallet-overview';
 import WhatsNewPopup from '../../components/app/whats-new-popup';
+import RecoveryPhraseReminder from '../../components/app/recovery-phrase-reminder';
 
 import {
   ASSET_ROUTE,
@@ -333,6 +334,10 @@ export default class Home extends PureComponent {
       return null;
     }
 
+    // Temporary
+    const showRecoveryPhraseReminder = false;
+    const showWhatsNew = notificationsToShow && showWhatsNewPopup;
+
     return (
       <div className="main-container">
         <Route path={CONNECTED_ROUTE} component={ConnectedSites} exact />
@@ -342,8 +347,14 @@ export default class Home extends PureComponent {
           exact
         />
         <div className="home__container">
-          {notificationsToShow && showWhatsNewPopup ? (
-            <WhatsNewPopup onClose={hideWhatsNewPopup} />
+          {showWhatsNew ? <WhatsNewPopup onClose={hideWhatsNewPopup} /> : null}
+          {!showWhatsNew && showRecoveryPhraseReminder ? (
+            <RecoveryPhraseReminder
+              hasBackedUp={false}
+              onConfirm={() => {
+                console.log('temporary no-op');
+              }}
+            />
           ) : null}
           {isPopup && !connectedStatusPopoverHasBeenShown
             ? this.renderPopover()
