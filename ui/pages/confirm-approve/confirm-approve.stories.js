@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { object, number, select, text} from '@storybook/addon-knobs';
 import ConfirmApprove from './index'
+import { updateMetamaskState } from '../../store/actions';
+import { store } from '../../../.storybook/preview'
 
 export default {
   title: 'Confirm - Approve',
@@ -20,9 +21,12 @@ export const Approve = ({
       "name": "E2E Test Dapp"
     }
   });
-  
+
   useEffect(() => {
     console.log('UseEffect')
+    store.dispatch(updateMetamaskState({
+      domainMetadata: domainMetadata
+    }))
   }, [domainMetadata]) 
 
   return (

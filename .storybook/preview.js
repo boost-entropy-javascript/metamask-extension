@@ -46,7 +46,7 @@ const styles = {
   alignItems: 'center',
 };
 
-const store = configureStore(testData);
+export const store = configureStore(testData);
 const history = createBrowserHistory();
 const proxiedBackground = new Proxy({}, {
     get(_, method) {
