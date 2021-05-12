@@ -1,13 +1,14 @@
 import EventEmitter from 'events';
 import { ObservableStore } from '@metamask/obs-store';
 import { METAMASK_CONTROLLER_EVENTS } from '../metamask-controller';
+import * as time from '../../../shared/constants/time';
 
 // 1 hour
-const REMINDER_CHECK_INTERVAL = 1000 * 60 * 60;
+const REMINDER_CHECK_INTERVAL = time.HOUR;
 // 2 days
-const INITIAL_REMINDER_FREQUENCY = 1000 * 60 * 60 * 24 * 2;
+const INITIAL_REMINDER_FREQUENCY = time.DAY * 2;
 // 90 days
-const FOLLOWUP_REMINDER_FREQUENCY = 1000 * 60 * 60 * 24 * 90;
+const FOLLOWUP_REMINDER_FREQUENCY = time.DAY * 90;
 
 export default class AppStateController extends EventEmitter {
   /**
