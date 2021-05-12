@@ -3,7 +3,7 @@ import { ObservableStore } from '@metamask/obs-store';
 import { METAMASK_CONTROLLER_EVENTS } from '../metamask-controller';
 
 // 1 hour
-const REMINDER_CHECK_INTERVAL = 1000 * 30;
+const REMINDER_CHECK_INTERVAL = 1000 * 60 * 60;
 // 2 days
 const INITIAL_REMINDER_FREQUENCY = 1000 * 60 * 60 * 24 * 2;
 // 90 days

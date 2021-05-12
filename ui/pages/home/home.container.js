@@ -58,7 +58,6 @@ const mapStateToProps = (state) => {
   } = metamask;
   const accountBalance = getCurrentEthBalance(state);
   const { forgottenPassword, threeBoxLastUpdated } = appState;
-
   const totalUnapprovedCount = getTotalUnapprovedCount(state);
   const swapsEnabled = getSwapsFeatureLiveness(state);
   const pendingConfirmations = getUnapprovedTemplatedConfirmations(state);
