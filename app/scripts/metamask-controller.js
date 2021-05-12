@@ -761,6 +761,10 @@ export default class MetamaskController extends EventEmitter {
         this.appStateController.setConnectedStatusPopoverHasBeenShown,
         this.appStateController,
       ),
+      setRecoveryPhraseReminderHasBeenShown: nodeify(
+        this.appStateController.setRecoveryPhraseReminderHasBeenShown,
+        this.appStateController,
+      ),
 
       // EnsController
       tryReverseResolveAddress: nodeify(

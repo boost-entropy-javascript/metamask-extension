@@ -77,6 +77,9 @@ export default class Home extends PureComponent {
     showWhatsNewPopup: PropTypes.bool.isRequired,
     hideWhatsNewPopup: PropTypes.func.isRequired,
     notificationsToShow: PropTypes.bool.isRequired,
+    shouldShowRecoveryPhraseReminder: PropTypes.bool.isRequired,
+    setRecoveryPhraseReminderHasBeenShown: PropTypes.func.isRequired,
+    seedPhraseBackedUp: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -326,6 +329,9 @@ export default class Home extends PureComponent {
       notificationsToShow,
       showWhatsNewPopup,
       hideWhatsNewPopup,
+      shouldShowRecoveryPhraseReminder,
+      setRecoveryPhraseReminderHasBeenShown,
+      seedPhraseBackedUp,
     } = this.props;
 
     if (forgottenPassword) {
@@ -334,8 +340,6 @@ export default class Home extends PureComponent {
       return null;
     }
 
-    // Temporary
-    const showRecoveryPhraseReminder = false;
     const showWhatsNew = notificationsToShow && showWhatsNewPopup;
 
     return (
@@ -348,12 +352,10 @@ export default class Home extends PureComponent {
         />
         <div className="home__container">
           {showWhatsNew ? <WhatsNewPopup onClose={hideWhatsNewPopup} /> : null}
-          {!showWhatsNew && showRecoveryPhraseReminder ? (
+          {!showWhatsNew && shouldShowRecoveryPhraseReminder ? (
             <RecoveryPhraseReminder
-              hasBackedUp={false}
-              onConfirm={() => {
-                console.log('temporary no-op');
-              }}
+              hasBackedUp={seedPhraseBackedUp}
+              onConfirm={setRecoveryPhraseReminderHasBeenShown}
             />
           ) : null}
           {isPopup && !connectedStatusPopoverHasBeenShown
