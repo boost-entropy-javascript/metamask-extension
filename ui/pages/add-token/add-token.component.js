@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { createTokenTrackerLinkForChain } from '@metamask/etherscan-link';
+import { getTokenTrackerLink } from '@metamask/etherscan-link';
 import {
   checkExistingAddresses,
   isValidAddress,
@@ -253,10 +253,8 @@ class AddToken extends Component {
     } = this.state;
 
     const { chainId } = this.props;
-    const blockExplorerTokenLink = createTokenTrackerLinkForChain(
-      customAddress,
-      chainId,
-    );
+    const blockExplorerTokenLink = getTokenTrackerLink(customAddress, chainId);
+
     return (
       <div className="add-token__custom-token-form">
         <TextField
