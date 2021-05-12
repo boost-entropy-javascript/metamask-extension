@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { createTokenTrackerLinkForChain } from '@metamask/etherscan-link';
 import {
   checkExistingAddresses,
   isValidAddress,
 } from '../../helpers/utils/util';
-import { createTokenTrackerLinkForChain } from '@metamask/etherscan-link';
 import { tokenInfoGetter } from '../../helpers/utils/token-util';
 import { CONFIRM_ADD_TOKEN_ROUTE } from '../../helpers/constants/routes';
 import TextField from '../../components/ui/text-field';
