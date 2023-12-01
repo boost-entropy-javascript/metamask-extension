@@ -1331,8 +1331,9 @@ export default class MetamaskController extends EventEmitter {
       blockTracker: this.blockTracker,
       getCurrentChainId: () =>
         this.networkController.state.providerConfig.chainId,
-      getNetworkIdentifier: () => {
-        const { type, rpcUrl } = this.networkController.state.providerConfig;
+      getNetworkIdentifier: (providerConfig) => {
+        const { type, rpcUrl } =
+          providerConfig ?? this.networkController.state.providerConfig;
         return type === NETWORK_TYPES.RPC ? rpcUrl : type;
       },
       preferencesController: this.preferencesController,
@@ -1780,7 +1781,7 @@ export default class MetamaskController extends EventEmitter {
     networkControllerMessenger.subscribe(
       'NetworkController:networkDidChange',
       () => {
-        this.accountTracker._updateAccounts();
+        this.accountTracker.updateAccounts();
       },
     );
 
@@ -2144,6 +2145,17 @@ export default class MetamaskController extends EventEmitter {
   ///: END:ONLY_INCLUDE_IN
 
   ///: BEGIN:ONLY_INCLUDE_IN(snaps)
+
+  /**
+   * Get snap metadata from the current state without refreshing the registry database.
+   *
+   * @param {string} snapId - A snap id.
+   * @returns The available metadata for the snap, if any.
+   */
+  _getSnapMetadata(snapId) {
+    return this.snapsRegistry.state.database?.verifiedSnaps?.[snapId]?.metadata;
+  }
+
   /**
    * Tracks snaps export usage.
    * Note: This function is throttled to 1 call per 60 seconds per snap id + handler combination.
@@ -2162,6 +2174,7 @@ export default class MetamaskController extends EventEmitter {
               properties: {
                 snap_id: snapId,
                 export: handler,
+                snap_category: this._getSnapMetadata(snapId)?.category,
               },
             }),
           SECOND * 60,
@@ -2384,13 +2397,16 @@ export default class MetamaskController extends EventEmitter {
     this.controllerMessenger.subscribe(
       `${this.snapController.name}:snapInstalled`,
       (truncatedSnap, origin) => {
+        const snapId = truncatedSnap.id;
+        const snapCategory = this._getSnapMetadata(snapId)?.category;
         this.metaMetricsController.trackEvent({
           event: MetaMetricsEventName.SnapInstalled,
           category: MetaMetricsEventCategory.Snaps,
           properties: {
-            snap_id: truncatedSnap.id,
+            snap_id: snapId,
             version: truncatedSnap.version,
             origin,
+            snap_category: snapCategory,
           },
         });
       },
@@ -2399,14 +2415,17 @@ export default class MetamaskController extends EventEmitter {
     this.controllerMessenger.subscribe(
       `${this.snapController.name}:snapUpdated`,
       (newSnap, oldVersion, origin) => {
+        const snapId = newSnap.id;
+        const snapCategory = this._getSnapMetadata(snapId)?.category;
         this.metaMetricsController.trackEvent({
           event: MetaMetricsEventName.SnapUpdated,
           category: MetaMetricsEventCategory.Snaps,
           properties: {
-            snap_id: newSnap.id,
+            snap_id: snapId,
             old_version: oldVersion,
             new_version: newSnap.version,
             origin,
+            snap_category: snapCategory,
           },
         });
       },
@@ -2450,12 +2469,15 @@ export default class MetamaskController extends EventEmitter {
     this.controllerMessenger.subscribe(
       `${this.snapController.name}:snapUninstalled`,
       (truncatedSnap) => {
+        const snapId = truncatedSnap.id;
+        const snapCategory = this._getSnapMetadata(snapId)?.category;
         this.metaMetricsController.trackEvent({
           event: MetaMetricsEventName.SnapUninstalled,
           category: MetaMetricsEventCategory.Snaps,
           properties: {
-            snap_id: truncatedSnap.id,
+            snap_id: snapId,
             version: truncatedSnap.version,
+            snap_category: snapCategory,
           },
         });
       },
@@ -3609,7 +3631,7 @@ export default class MetamaskController extends EventEmitter {
 
       // Updating accounts in this.accountTracker before starting UI syncing ensure that
       // state has account balance before it is synced with UI
-      await this.accountTracker._updateAccounts();
+      await this.accountTracker.updateAccountsAllActiveNetworks();
     } finally {
       this._startUISync();
     }
