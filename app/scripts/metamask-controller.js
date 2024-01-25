@@ -972,6 +972,8 @@ export default class MetamaskController extends EventEmitter {
         'PhishingController:maybeUpdateState',
         'KeyringController:getAccounts',
         'SubjectMetadataController:getSubjectMetadata',
+        'AccountsController:setSelectedAccount',
+        'AccountsController:getAccountByAddress',
       ],
     });
 
@@ -1455,7 +1457,7 @@ export default class MetamaskController extends EventEmitter {
             this.networkController.state.providerConfig.chainId
           ],
         getSelectedAddress: () =>
-          this.preferencesController.store.getState().selectedAddress,
+          this.accountsController.getSelectedAccount().address,
         incomingTransactions: {
           includeTokenTransfers: false,
           isEnabled: () =>
@@ -4154,6 +4156,12 @@ export default class MetamaskController extends EventEmitter {
       transactionOptions,
       transactionParams,
       userOperationController: this.userOperationController,
+      ///: BEGIN:ONLY_INCLUDE_IF(blockaid)
+      ppomController: this.ppomController,
+      securityAlertsEnabled:
+        this.preferencesController.store.getState()?.securityAlertsEnabled,
+      chainId: this.networkController.state.providerConfig.chainId,
+      ///: END:ONLY_INCLUDE_IF
     };
   }
 
