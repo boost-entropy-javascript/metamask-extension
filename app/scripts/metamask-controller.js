@@ -1007,11 +1007,17 @@ export default class MetamaskController extends EventEmitter {
 
     const getSnapController = () => this.snapController;
 
+    // Necessary to persist the keyrings and update the accounts both within the keyring controller and accounts controller
+    const persistAndUpdateAccounts = async () => {
+      await this.keyringController.persistAllKeyrings();
+      await this.accountsController.updateAccounts();
+    };
+
     additionalKeyrings.push(
       snapKeyringBuilder(
         snapKeyringBuildMessenger,
         getSnapController,
-        async () => await this.keyringController.persistAllKeyrings(),
+        persistAndUpdateAccounts,
         (address) => this.preferencesController.setSelectedAddress(address),
         (address) => this.removeAccount(address),
       ),
@@ -1675,7 +1681,17 @@ export default class MetamaskController extends EventEmitter {
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
     const transactionMetricsRequest = this.getTransactionMetricsRequest();
 
+    const mmiControllerMessenger = this.controllerMessenger.getRestricted({
+      name: 'MMIController',
+      allowedActions: [
+        'AccountsController:getAccountByAddress',
+        'AccountsController:setAccountName',
+        'AccountsController:listAccounts',
+      ],
+    });
+
     this.mmiController = new MMIController({
+      messenger: mmiControllerMessenger,
       mmiConfigurationController: this.mmiConfigurationController,
       keyringController: this.keyringController,
       securityProviderRequest: this.securityProviderRequest.bind(this),
@@ -1691,7 +1707,6 @@ export default class MetamaskController extends EventEmitter {
       networkController: this.networkController,
       permissionController: this.permissionController,
       signatureController: this.signatureController,
-      accountsController: this.accountsController,
       platform: this.platform,
       extension: this.extension,
       getTransactions: this.txController.getTransactions.bind(
