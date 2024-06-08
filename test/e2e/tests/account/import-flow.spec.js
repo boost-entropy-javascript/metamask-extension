@@ -39,9 +39,6 @@ async function mockTrezor(mockServer) {
 
 describe('Import flow @no-mmi', function () {
   it('Import wallet using Secret Recovery Phrase', async function () {
-    if (process.env.MULTICHAIN) {
-      return;
-    }
     await withFixtures(
       {
         fixtures: new FixtureBuilder({ onboarding: true }).build(),
@@ -140,7 +137,9 @@ describe('Import flow @no-mmi', function () {
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
         // finds the transaction in the transactions list
-        await driver.clickElement('[data-testid="home__activity-tab"]');
+        await driver.clickElement(
+          '[data-testid="account-overview__activity-tab"]',
+        );
         await driver.wait(async () => {
           const confirmedTxes = await driver.findElements(
             '.transaction-list__completed-transactions .activity-list-item',

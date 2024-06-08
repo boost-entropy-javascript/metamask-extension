@@ -1,6 +1,7 @@
 export { AccountListItem, AccountListItemMenuTypes } from './account-list-item';
 export { AccountListItemMenu } from './account-list-item-menu';
 export { AccountListMenu } from './account-list-menu';
+export { AccountOverview } from './account-overview';
 export { AccountPicker } from './account-picker';
 export { ActivityListItem } from './activity-list-item';
 export { AppHeader } from './app-header';
@@ -39,6 +40,7 @@ export { NotificationDetailInfo } from './notification-detail-info';
 export { NotificationDetailNft } from './notification-detail-nft';
 export { NotificationDetailTitle } from './notification-detail-title';
 export { NotificationDetailButton } from './notification-detail-button';
+export { NotificationDetailBlockExplorerButton } from './notification-detail-block-explorer-button';
 export { NotificationsPage } from './notifications-page';
 export { NotificationsSettingsBox } from './notifications-settings-box';
 export { NotificationsSettingsType } from './notifications-settings-type';
