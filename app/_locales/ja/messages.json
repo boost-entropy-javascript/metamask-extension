@@ -381,12 +381,6 @@
   "alertActionUpdateGasFeeLevel": {
     "message": "ガスオプションを更新"
   },
-  "alertBannerMultipleAlertsDescription": {
-    "message": "このリクエストを承認すると、詐欺が判明しているサードパーティに資産をすべて奪われる可能性があります。"
-  },
-  "alertBannerMultipleAlertsTitle": {
-    "message": "複数アラート！"
-  },
   "alertDisableTooltip": {
     "message": "これは「設定」>「アラート」で変更できます"
   },
@@ -1094,9 +1088,6 @@
   "connectedSnapAndNoAccountDescription": {
     "message": "MetaMaskはこのサイトに接続されていますが、まだアカウントは接続されていません"
   },
-  "connectedWith": {
-    "message": "接続先"
-  },
   "connecting": {
     "message": "接続中..."
   },
@@ -1512,14 +1503,6 @@
   },
   "disconnectAllSnapsText": {
     "message": "Snap"
-  },
-  "disconnectAllText": {
-    "message": "$1と$2の接続を解除した場合、再び使用するには再度接続する必要があります。",
-    "description": "$1 will map to `disconnectAllAccountsText` or `disconnectAllSnapsText`, $2 represents the website hostname"
-  },
-  "disconnectAllTitle": {
-    "message": "すべての$1の接続を解除",
-    "description": "$1 will map to `disconnectAllAccountsText` or `disconnectAllSnapsText`"
   },
   "disconnectPrompt": {
     "message": "$1を接続解除"
@@ -2840,10 +2823,6 @@
   "nativeNetworkPermissionRequestDescription": {
     "message": "$1が次の承認を求めています:",
     "description": "$1 represents dapp name"
-  },
-  "nativePermissionRequestDescription": {
-    "message": "このサイトに次のことを希望しますか？",
-    "description": "Description below header used on Permission Connect screen for native permissions."
   },
   "nativeToken": {
     "message": "このネットワークのネイティブトークンは$1です。ガス代にもこのトークンが使用されます。",
