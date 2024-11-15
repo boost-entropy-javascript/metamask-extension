@@ -2,6 +2,8 @@ import React, { createContext, useState } from 'react';
 import Tooltip from '../../../../ui/tooltip/tooltip';
 import {
   Box,
+  ButtonIcon,
+  ButtonIconSize,
   Icon,
   IconName,
   IconSize,
@@ -115,15 +117,15 @@ export const ConfirmInfoRow: React.FC<ConfirmInfoRowProps> = ({
         {copyEnabled && (
           <CopyIcon
             copyText={copyText ?? ''}
-            style={{ right: isCollapsible ? 32 : 0, top: 4 }}
+            style={{ right: isCollapsible ? 32 : 4, top: 4 }}
             color={IconColor.iconMuted}
           />
         )}
         {isCollapsible && (
-          <Icon
+          <ButtonIcon
             color={IconColor.iconMuted}
-            name={expanded ? IconName.Collapse : IconName.Expand}
-            size={IconSize.Sm}
+            iconName={expanded ? IconName.Collapse : IconName.Expand}
+            size={ButtonIconSize.Sm}
             style={{
               cursor: 'pointer',
               position: 'absolute',
@@ -132,6 +134,7 @@ export const ConfirmInfoRow: React.FC<ConfirmInfoRowProps> = ({
             }}
             onClick={() => setExpanded(!expanded)}
             data-testid="sectionCollapseButton"
+            ariaLabel="collapse-button"
           />
         )}
         <Box

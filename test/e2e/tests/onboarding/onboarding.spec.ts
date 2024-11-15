@@ -1,5 +1,6 @@
 import {
   convertToHexValue,
+  TEST_SEED_PHRASE,
   WALLET_PASSWORD,
   withFixtures,
 } from '../../helpers';
@@ -20,6 +21,7 @@ import {
   completeImportSRPOnboardingFlow,
   importSRPOnboardingFlow,
 } from '../../page-objects/flows/onboarding.flow';
+import { switchToNetworkFlow } from '../../page-objects/flows/network.flow';
 
 describe('MetaMask onboarding @no-mmi', function () {
   const ganacheOptions2 = {
@@ -54,7 +56,7 @@ describe('MetaMask onboarding @no-mmi', function () {
         title: this.test?.fullTitle(),
       },
       async ({ driver }: { driver: Driver }) => {
-        await completeImportSRPOnboardingFlow(driver);
+        await completeImportSRPOnboardingFlow({ driver });
         const homePage = new HomePage(driver);
         await homePage.check_pageIsLoaded();
         await homePage.check_expectedBalanceIsDisplayed();
@@ -163,7 +165,10 @@ describe('MetaMask onboarding @no-mmi', function () {
         title: this.test?.fullTitle(),
       },
       async ({ driver, secondaryGanacheServer }) => {
-        await importSRPOnboardingFlow(driver);
+        await importSRPOnboardingFlow({
+          driver,
+          seedPhrase: TEST_SEED_PHRASE,
+        });
 
         const onboardingCompletePage = new OnboardingCompletePage(driver);
         await onboardingCompletePage.check_pageIsLoaded();
@@ -186,7 +191,8 @@ describe('MetaMask onboarding @no-mmi', function () {
 
         const homePage = new HomePage(driver);
         await homePage.check_pageIsLoaded();
-        await homePage.headerNavbar.switchToNetwork(networkName);
+        await switchToNetworkFlow(driver, networkName);
+        await homePage.check_addNetworkMessageIsDisplayed(networkName);
 
         // Check the correct balance for the custom network is displayed
         if (secondaryGanacheServer && Array.isArray(secondaryGanacheServer)) {
@@ -207,7 +213,7 @@ describe('MetaMask onboarding @no-mmi', function () {
         title: this.test?.fullTitle(),
       },
       async ({ driver }) => {
-        await importSRPOnboardingFlow(driver);
+        await importSRPOnboardingFlow({ driver });
 
         const onboardingCompletePage = new OnboardingCompletePage(driver);
         await onboardingCompletePage.check_pageIsLoaded();
